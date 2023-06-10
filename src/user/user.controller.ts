@@ -13,11 +13,13 @@ import {
   Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
+import { creatUserDto } from './dto/create-user.dto';
+import { User } from './interfaces/user.interface';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {} // 依赖注入
-  @Get()
+  @Get('')
   getUser(@Query() query: Record<string, any>) {
     // Record是指的是键值对 @Query是装饰器 即注解 是放在路径之后的 ?
     // http://localhost:3001/user?name=jack&age=10
@@ -35,6 +37,10 @@ export class UserController {
     // http://localhost:3001/user/param/10
     return this.userService.getUserById(param.userId);
   }
+  @Get('list')
+  findAllUser(): User[] {
+    return this.userService.findAll();
+  }
   @Delete(':id')
   deleteUserById(@Param('id') userId: number) {
     // 同样都是使用param参数 和上面的get一致
@@ -51,7 +57,7 @@ export class UserController {
     return this.userService.updateUserById(userId, body);
   }
   @Post()
-  addUser(@Body() userDto: Record<string, any>) {
+  addUser(@Body() userDto: creatUserDto) {
     // http://localhost:3001/user { "name": "post-name",  "age": 10 }
     return this.userService.addUser(userDto);
   }
