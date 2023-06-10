@@ -7,6 +7,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -32,13 +34,16 @@ export class UserController {
     return this.userService.getUserById(userId);
   }
   @Get('param/:id') // 避免路径重复加上param
-  getUserByParam(@Param() param: { userId: number }) {
+  getUserByParam(@Param() param: { id: number }) {
     // 没有参数的param 需要从param解构出来传递的参数 param的userId是由参数里面的类型限制 { userId: number }声明的
     // http://localhost:3001/user/param/10
-    return this.userService.getUserById(param.userId);
+    console.log(param);
+    return 'params' + this.userService.getUserById(param.id);
   }
-  @Get('list')
+  @Get('get/list')
   findAllUser(): User[] {
+    console.log('ing...findAllUser');
+    console.log(this.userService.findAll());
     return this.userService.findAll();
   }
   @Delete(':id')
@@ -60,5 +65,16 @@ export class UserController {
   addUser(@Body() userDto: creatUserDto) {
     // http://localhost:3001/user { "name": "post-name",  "age": 10 }
     return this.userService.addUser(userDto);
+  }
+  @Get('get/error')
+  error() {
+    // http://localhost:3001/user/get/error
+    throw new HttpException(
+      {
+        status: HttpStatus.FORBIDDEN,
+        error: 'This is a custom message',
+      },
+      HttpStatus.FORBIDDEN,
+    );
   }
 }
