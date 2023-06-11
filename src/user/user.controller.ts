@@ -13,12 +13,16 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { creatUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
+import { RoleGuard } from 'src/role/role.guard';
+import { Role } from 'src/role/role.decorator';
 
 @Controller('user')
+@UseGuards(RoleGuard) // 绑定守卫
 export class UserController {
   constructor(private readonly userService: UserService) {} // 依赖注入
   @Get('')
@@ -47,6 +51,7 @@ export class UserController {
     return this.userService.findAll();
   }
   @Delete(':id')
+  @Role('admin')
   deleteUserById(@Param('id') userId: number) {
     // 同样都是使用param参数 和上面的get一致
     // http://localhost:3001/user/10
