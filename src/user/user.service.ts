@@ -8,32 +8,52 @@ import { User } from 'src/model/user.model';
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User) private userModel: typeof User) {} // 使用@InjectModel来将UserModel注入到service内
-  getUser(query) {
-    return query;
+  getUserByPage(query) {
+    const { page, pageSize, ...args } = query;
+    if (page && pageSize) {
+      return this.userModel.findAll({
+        offset: (Number(page) - 1) * Number(pageSize), // 设置偏移量
+        limit: Number(pageSize), // 设置每页数据条数
+        where: {
+          isActive: true,
+          ...args,
+        },
+      });
+    } else {
+      return this.userModel.findAll({
+        where: {
+          isActive: true,
+          ...args,
+        },
+      });
+    }
   }
-  getUserById(userId) {
-    return `This user's id is ${userId}`;
+  getUserById(id: number): Promise<User> {
+    return this.userModel.findOne({
+      where: {
+        id,
+      },
+    });
   }
   async findAll(): Promise<User[]> {
-    return this.userModel.findAll();
+    return this.userModel.findAll({ where: { isActive: true } });
   }
-  deleteUserById(userId) {
-    return {
-      id: userId,
-      msg: 'delete',
-    };
+  async deleteUserById(userId) {
+    return this.userModel.update(
+      { isActive: false },
+      { where: { id: userId } },
+    );
   }
-  updateUserById(userId, dto) {
-    return {
-      id: userId,
-      ...dto,
-      msg: 'put success',
-    };
+  async updateUserById(userId, dto) {
+    const { name } = dto;
+    return this.userModel.update(
+      { name: name, updatedAt: new Date() },
+      { where: { id: userId } },
+    );
   }
-  addUser(creatUserDto) {
-    return {
-      ...creatUserDto,
-      msg: 'add success',
-    };
+  async addUser(creatUserDto): Promise<User> {
+    const { name } = creatUserDto;
+    const user = { name, isActive: true }; // 默认生成的user是可用的
+    return this.userModel.create(user);
   }
 }

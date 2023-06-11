@@ -5,6 +5,6 @@
 import { User } from '../interfaces/user.interface';
 export class creatUserDto implements User {
   name: string;
-  age: number;
+  isActive: boolean;
   id: number;
 }
