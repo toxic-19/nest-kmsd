@@ -7,10 +7,24 @@ import {
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-import { LoggerMiddleware } from './logger/logger.middleware';
+import { LoggerMiddleware } from './common/logger/logger.middleware';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { User } from './model/user.model';
 
 @Module({
-  imports: [UserModule], // 导入模块到AppModule里面，避免所有的Controller和Service都在AppModule里面导致太杂乱
+  imports: [
+    SequelizeModule.forRoot({
+      // 导入数据库配置
+      dialect: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: '123456',
+      database: 'order',
+      models: [User], // 实体模型注册，让Squelize知道存在
+    }),
+    UserModule,
+  ], // 导入模块到AppModule里面，避免所有的Controller和Service都在AppModule里面导致太杂乱
   controllers: [AppController],
   providers: [AppService],
 })

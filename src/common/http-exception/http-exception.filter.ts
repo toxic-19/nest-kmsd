@@ -1,3 +1,6 @@
+/**
+ * 异常过滤器
+ */
 import {
   ExceptionFilter,
   Catch,

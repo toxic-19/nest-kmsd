@@ -17,9 +17,9 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { creatUserDto } from './dto/create-user.dto';
-import { User } from './interfaces/user.interface';
 import { RoleGuard } from 'src/role/role.guard';
 import { Role } from 'src/role/role.decorator';
+import { User } from 'src/model/user.model';
 
 @Controller('user')
 @UseGuards(RoleGuard) // 绑定守卫
@@ -45,10 +45,8 @@ export class UserController {
     return 'params' + this.userService.getUserById(param.id);
   }
   @Get('get/list')
-  findAllUser(): User[] {
-    console.log('ing...findAllUser');
-    console.log(this.userService.findAll());
-    return this.userService.findAll();
+  async findAllUser(): Promise<User[]> {
+    return await this.userService.findAll();
   }
   @Delete(':id')
   @Role('admin')
