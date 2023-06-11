@@ -10,6 +10,7 @@ import { UserModule } from './user/user.module';
 import { LoggerMiddleware } from './common/logger/logger.middleware';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './model/user.model';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { User } from './model/user.model';
       models: [User], // 实体模型注册，让Squelize知道存在
     }),
     UserModule,
+    CategoryModule,
   ], // 导入模块到AppModule里面，避免所有的Controller和Service都在AppModule里面导致太杂乱
   controllers: [AppController],
   providers: [AppService],
