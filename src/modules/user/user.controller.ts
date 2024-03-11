@@ -5,8 +5,8 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common'
 import { UserService } from './user.service'
 import { creatUserDto } from './dto/create-user.dto'
-import { RoleGuard } from 'src/role/role.guard'
-import { Role } from 'src/role/role.decorator'
+import { RoleGuard } from 'src/modules/role/role.guard'
+import { Role } from 'src/modules/role/role.decorator'
 import { User } from 'src/model/user.model'
 
 @Controller('user')

@@ -1,11 +1,11 @@
 import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-import { UserModule } from './user/user.module'
+import { UserModule } from './modules/user/user.module'
 import { LoggerMiddleware } from './common/logger/logger.middleware'
 import { SequelizeModule } from '@nestjs/sequelize'
 import { User } from './model/user.model'
-import { CategoryModule } from './category/category.module'
+import { CategoryModule } from './modules/category/category.module'
 
 @Module({
   imports: [
