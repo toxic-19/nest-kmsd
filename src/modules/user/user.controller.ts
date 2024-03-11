@@ -6,8 +6,8 @@ import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, 
 import { UserService } from './user.service'
 import { creatUserDto } from './dto/create-user.dto'
 import { RoleGuard } from 'src/modules/role/role.guard'
-import { Role } from 'src/modules/role/role.decorator'
-import { User } from 'src/model/user.model'
+import { Role } from '~/modules/role/role.decorator'
+import { User } from './model/user.model'
 
 @Controller('user')
 @UseGuards(RoleGuard) // 绑定守卫

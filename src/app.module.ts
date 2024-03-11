@@ -4,7 +4,7 @@ import { AppService } from './app.service'
 import { UserModule } from './modules/user/user.module'
 import { LoggerMiddleware } from './common/logger/logger.middleware'
 import { SequelizeModule } from '@nestjs/sequelize'
-import { User } from './model/user.model'
+import { User } from './modules/user/model/user.model'
 import { CategoryModule } from './modules/category/category.module'
 
 @Module({
