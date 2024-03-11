@@ -1,16 +1,11 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
-import { LoggerMiddleware } from './common/logger/logger.middleware';
-import { SequelizeModule } from '@nestjs/sequelize';
-import { User } from './model/user.model';
-import { CategoryModule } from './category/category.module';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { UserModule } from './user/user.module'
+import { LoggerMiddleware } from './common/logger/logger.middleware'
+import { SequelizeModule } from '@nestjs/sequelize'
+import { User } from './model/user.model'
+import { CategoryModule } from './category/category.module'
 
 @Module({
   imports: [
@@ -42,6 +37,6 @@ export class AppModule implements NestModule {
         'user/(.*)',
       )
       // .forRoutes({ path: 'user', method: RequestMethod.GET }); // 如果只是路由路径就不需要对象形式 path还支持路由匹配
-      .forRoutes(AppController); // 当然也可以接受一个或多个控制器
+      .forRoutes(AppController) // 当然也可以接受一个或多个控制器
   }
 }

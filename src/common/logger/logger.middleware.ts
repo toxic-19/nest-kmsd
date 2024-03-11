@@ -3,20 +3,20 @@
  * 包含中间件的模块必须实现 NestModule 接口。我们将 LoggerMiddleware 设置在 ApplicationModule 层上。
  * 我们在AppModule文件实现
  */
-import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
+import { Injectable, Logger, NestMiddleware } from '@nestjs/common'
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
   use(req: any, res: any, next: () => void) {
-    Logger.log('Request...');
-    next();
+    Logger.log('Request...')
+    next()
   }
 }
 
 // 可以在此定义一个函数中间件
 export function logger(req, res, next) {
-  Logger.log(req);
-  console.log('函数中间件 Request...');
-  Logger.log(res);
-  next();
+  Logger.log(req)
+  console.log('函数中间件 Request...')
+  Logger.log(res)
+  next()
 }

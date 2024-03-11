@@ -3,7 +3,7 @@
  * 定义该User模型可以和数据库表连接
  * equelize 默认将模型名称转换为小写并使用复数形式作为表名，例如 User 模型对应的表名为 users。
  */
-import { Column, Model, Table } from 'sequelize-typescript';
+import { Column, Model, Table } from 'sequelize-typescript'
 
 @Table
 export class User extends Model<User> {
@@ -11,8 +11,8 @@ export class User extends Model<User> {
   // id: string;
 
   @Column
-  name: string;
+  name: string
 
   @Column({ defaultValue: true })
-  isActive: boolean;
+  isActive: boolean
 }
