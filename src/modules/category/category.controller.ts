@@ -9,7 +9,7 @@ class Category {
 }
 
 @Controller('category')
-@ApiTags('category') // http://localhost:3001/api#/category
+@ApiTags('category') // http://localhost:3001/api-docs#/category
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 

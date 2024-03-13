@@ -9,6 +9,7 @@ import { User } from './model/user.model'
 
 @Module({
   imports: [SequelizeModule.forFeature([User])], // 使用forFeature()方法来定义哪个模型被注册在当前范围中。
+  // 使用forFeature导入模型后就可以操作模型和数据库表了
   controllers: [UserController],
   providers: [UserService],
   exports: [SequelizeModule],

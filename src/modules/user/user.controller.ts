@@ -8,9 +8,11 @@ import { creatUserDto } from './dto/create-user.dto'
 import { RoleGuard } from 'src/modules/role/role.guard'
 import { Role } from '~/modules/role/role.decorator'
 import { User } from './model/user.model'
+import { ApiTags } from '@nestjs/swagger'
 
 @Controller('user')
 @UseGuards(RoleGuard) // 绑定守卫
+@ApiTags('user')
 export class UserController {
   constructor(private readonly userService: UserService) {} // 依赖注入
   @Get('')

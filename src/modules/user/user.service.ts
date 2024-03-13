@@ -7,7 +7,8 @@ import { User } from './model/user.model'
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User) private userModel: typeof User) {} // 使用@InjectModel来将UserModel注入到service内
+  constructor(@InjectModel(User) private userModel: typeof User) {}
+  // 使用@InjectModel来将UserModel注入到service内，就可以使用this来访问UserModel了
   getUserByPage(query) {
     const { page, pageSize, ...args } = query
     if (page && pageSize) {
