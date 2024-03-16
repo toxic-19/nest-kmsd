@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
-import { Logger } from '@nestjs/common'
+import { Logger, ValidationPipe } from '@nestjs/common'
 import { logger } from './common/logger/logger.middleware'
 import { Response } from './common/interceptor/response'
 import { HttpExceptionFilter } from './common/http-exception/http-exception.filter'
@@ -13,6 +13,7 @@ async function bootstrap() {
   // 在main.ts中注册全局中间件,只能是函数中间件
   app.use(logger)
   app.useGlobalInterceptors(new Response())
+  // app.useGlobalPipes(new ValidationPipe())
   app.useGlobalFilters(new HttpExceptionFilter()) // 全局使用异常处理器 比如不存在的路径
   const config = new DocumentBuilder() // swagger文档相关配置 在category模块进行配置参考
     .setTitle('InitNest swagger')

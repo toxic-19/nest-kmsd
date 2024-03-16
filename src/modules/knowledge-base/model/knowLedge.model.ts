@@ -22,4 +22,6 @@ export class KnowLedge extends Model {
   isCollected: boolean
   @Column
   isMine: boolean
+  @Column
+  isDel: boolean
 }

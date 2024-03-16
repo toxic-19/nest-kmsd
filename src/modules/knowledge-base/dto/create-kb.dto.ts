@@ -8,5 +8,5 @@ export class CreateKbDto {
   @IsIn([true, false], {
     message: '请传递正确的isTop值，如true或者false',
   })
-  isTop?: boolean
+  isTop: boolean
 }
