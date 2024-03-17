@@ -8,6 +8,5 @@ import { KnowledgeBaseService } from './knowledge-base.service'
   imports: [SequelizeModule.forFeature([KnowLedge])],
   controllers: [KnowledgeBaseController],
   providers: [KnowledgeBaseService],
-  exports: [SequelizeModule],
 })
 export class KnowledgeBaseModule {}

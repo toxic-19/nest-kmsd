@@ -12,6 +12,6 @@ import { User } from './model/user.model'
   // 使用forFeature导入模型后就可以操作模型和数据库表了
   controllers: [UserController],
   providers: [UserService],
-  exports: [SequelizeModule],
+  exports: [UserService],
 })
 export class UserModule {}

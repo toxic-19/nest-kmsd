@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common'
+import { Body, Controller, Get, Post } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { KnowledgeBaseService } from './knowledge-base.service'
 import { UpdateIsTopDto } from './dto/update-kb.dto'

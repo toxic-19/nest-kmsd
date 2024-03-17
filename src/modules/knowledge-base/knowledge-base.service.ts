@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { KnowLedge } from '~/modules/knowledge-base/model/knowLedge.model'
+import { KnowLedge } from './model/knowLedge.model'
 import { UpdateIsTopDto } from './dto/update-kb.dto'
 import { CreateKbDto } from './dto/create-kb.dto'
 @Injectable()
