@@ -9,7 +9,6 @@ export class GroupController {
   constructor(private readonly groupService: GroupService) {}
   @Get('')
   getGroupListByKnowId(@Query() query: GetGroupIdDto) {
-    console.log(query)
     return this.groupService.getGroupListByKnowId(query)
   }
 }

@@ -28,7 +28,7 @@ import { Article } from './modules/article/model/article.model'
     ArticleModule,
   ], // 导入模块到AppModule里面，避免所有的Controller和Service都在AppModule里面导致太杂乱
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService], // 实例化的提供者
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

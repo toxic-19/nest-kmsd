@@ -8,7 +8,7 @@ export class Article extends Model<Article> {
   @Column
   description: string
   @Column
-  tagId: number
+  tagId: string
   @Column
   publishedTime: Date
   @Column

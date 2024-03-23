@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common'
+import { Controller, Get, Param, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ArticleService } from './article.service'
 
@@ -7,5 +7,12 @@ import { ArticleService } from './article.service'
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
   @Get('')
-  getArticleList() {}
+  getArticleList() {
+    return this.articleService.getArticleList()
+  }
+  // 通过articleId获取文章的具体内容
+  @Get('articleId/:id')
+  getArticleContentById(@Param() params: { id: number }) {
+    return this.articleService.getArticleById(params)
+  }
 }
