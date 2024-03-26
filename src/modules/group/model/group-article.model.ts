@@ -1,4 +1,4 @@
-import { Table, Model, Column, DataType, ForeignKey, HasMany } from 'sequelize-typescript'
+import { Table, Model, Column, DataType } from 'sequelize-typescript'
 
 @Table
 export class GroupArticle extends Model {

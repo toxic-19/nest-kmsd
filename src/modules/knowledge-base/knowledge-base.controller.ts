@@ -15,7 +15,7 @@ export class KnowledgeBaseController {
   changeTop(@Body() updateIsTopDto: UpdateIsTopDto) {
     return this.kbService.cancelTop(updateIsTopDto)
   }
-  @Post('create')
+  @Post('create') // 在新建知识库的时候，需要自动创建一个文章 默认的文章模板
   addKnowBase(@Body() createKbDto: CreateKbDto) {
     return this.kbService.createNewBase(createKbDto)
   }

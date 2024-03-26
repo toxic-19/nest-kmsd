@@ -14,18 +14,22 @@ import { Group } from './modules/group/model/group.model'
 import { ArticleModule } from './modules/article/article.module'
 import { OneLevel } from './modules/group/model/one-level.model'
 import { Article } from './modules/article/model/article.model'
+import { TagModule } from './modules/tag/tag.module'
+import { Tag } from './modules/tag/model/tag.model'
+import { ArticleTag } from './modules/article/model/articleTag.model'
 @Module({
   imports: [
     SequelizeModule.forRoot({
       // 导入数据库配置
       ...databaseConfig,
-      models: [User, KnowLedge, Group, OneLevel, Article], // 实体模型注册，让Squelize知道存在
+      models: [User, KnowLedge, Group, OneLevel, Article, Tag, ArticleTag], // 实体模型注册，让Squelize知道存在
     }),
     UserModule,
     CategoryModule,
     KnowledgeBaseModule,
     GroupModule,
     ArticleModule,
+    TagModule,
   ], // 导入模块到AppModule里面，避免所有的Controller和Service都在AppModule里面导致太杂乱
   controllers: [AppController],
   providers: [AppService], // 实例化的提供者
