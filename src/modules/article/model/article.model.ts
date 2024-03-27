@@ -8,8 +8,6 @@ export class Article extends Model<Article> {
   @Column
   description: string
   @Column
-  tagId: string
-  @Column
   publishedTime: Date
   @Column
   content: string

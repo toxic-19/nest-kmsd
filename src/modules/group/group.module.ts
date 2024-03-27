@@ -11,6 +11,6 @@ import { GroupArticle } from './model/group-article.model'
   imports: [SequelizeModule.forFeature([Group, OneLevel, GroupArticle]), ArticleModule],
   providers: [GroupService],
   controllers: [GroupController],
-  exports: [GroupModule],
+  exports: [GroupService],
 })
 export class GroupModule {}

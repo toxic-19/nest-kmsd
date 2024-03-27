@@ -6,6 +6,7 @@ import { OneLevel } from './model/one-level.model'
 import { LabelValue } from './constant'
 import { ArticleService } from '../article/article.service'
 import { GroupArticle } from './model/group-article.model'
+import { CreateGroupArticleDto } from './dto/create-group-article.dto'
 @Injectable()
 export class GroupService {
   constructor(
@@ -14,7 +15,7 @@ export class GroupService {
     @InjectModel(OneLevel) private oneLevelModel: typeof OneLevel,
     @InjectModel(GroupArticle) private groupArticleModel: typeof GroupArticle,
   ) {}
-  // 获取知识库下分组和文章信息
+  // GET: 获取知识库下分组和文章信息
   async getGroupListByKnowId(knowIdQuery: GetGroupIdDto) {
     const obj = { article: [], group: [] }
     const list = await this.getOneLevelList(knowIdQuery.knowId)
@@ -50,7 +51,7 @@ export class GroupService {
       })
     return obj
   }
-
+  // 通过分组id获取分组名称
   async getGroupByIds(ids: number[]) {
     // 在这里编写异步代码
     const result = await this.groupModel.findAll({
@@ -61,7 +62,7 @@ export class GroupService {
     })
     return result.map((item) => item.dataValues)
   }
-  // 通过分组id来获取到旗下的所有文章
+  // 通过分组id来获取到其下的所有文章
   async getArticleIdsByGroupId(groupId: number) {
     const resultList = (
       await this.groupArticleModel.findAll({
@@ -77,5 +78,13 @@ export class GroupService {
       list.push(...res)
     }
     return list
+  }
+  // method: 在分组-文章表中创建记录
+  createGroupArticle(createGroupArticleDto: CreateGroupArticleDto) {
+    const { groupId, articleId } = createGroupArticleDto
+    return this.groupArticleModel.create({
+      groupId,
+      articleId,
+    })
   }
 }
