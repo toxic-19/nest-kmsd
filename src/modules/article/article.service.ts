@@ -69,4 +69,12 @@ export class ArticleService {
       })
     }
   }
+
+  // post: 编辑文章
+  // 1. 重命名
+  // 2. 编辑内容
+  async updateArticleById(articleId, dto) {
+    const { title, content } = dto
+    return this.articleModel.update({ title, content, updatedAt: new Date() }, { where: { id: articleId } })
+  }
 }

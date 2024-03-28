@@ -24,7 +24,12 @@ export class ArticleController {
   // 创建文章
   @Post('createDoc')
   postCreateArticle(@Body() createArticleDto: CreateArticleDto) {
-    console.log(createArticleDto)
     return this.articleService.createArticle(createArticleDto)
+  }
+
+  // 编辑文章
+  @Post('updateDoc/:id')
+  postUpdateArticle(@Param('id') articleId: number, @Body() body: Record<string, any>) {
+    return this.articleService.updateArticleById(articleId, body)
   }
 }
