@@ -60,8 +60,13 @@ export class ArticleService {
         groupId,
       })
     }
+    const articleLabel = 1
     if (knowId && !groupId && articleId) {
-      console.log('创建知识库下的文档')
+      return this.groupService.createKnowArticle({
+        knowId,
+        childId: articleId,
+        label: articleLabel,
+      })
     }
   }
 }

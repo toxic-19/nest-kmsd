@@ -8,6 +8,6 @@ export class OneLevel extends Model {
   knowId: number
   @Column({ type: DataType.INTEGER, comment: '指的是groupId或者articleId，取决于label' })
   childId: number
-  @Column({ type: DataType.INTEGER, comment: '1是指groupId 2是指articleId' })
+  @Column({ type: DataType.INTEGER, comment: '2是指groupId 1是指articleId' })
   label: number
 }

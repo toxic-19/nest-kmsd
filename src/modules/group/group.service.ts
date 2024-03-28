@@ -6,7 +6,7 @@ import { OneLevel } from './model/one-level.model'
 import { LabelValue } from './constant'
 import { ArticleService } from '../article/article.service'
 import { GroupArticle } from './model/group-article.model'
-import { CreateGroupArticleDto } from './dto/create-group-article.dto'
+import { CreateGroupArticleDto, CreateKnowArticleDto } from './dto/create-group-article.dto'
 @Injectable()
 export class GroupService {
   constructor(
@@ -85,6 +85,11 @@ export class GroupService {
     return this.groupArticleModel.create({
       groupId,
       articleId,
+    })
+  }
+  createKnowArticle(createKnowArticleDto: CreateKnowArticleDto) {
+    return this.oneLevelModel.create({
+      ...createKnowArticleDto,
     })
   }
 }
