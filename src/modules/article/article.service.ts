@@ -75,6 +75,6 @@ export class ArticleService {
   // 2. 编辑内容
   async updateArticleById(articleId, dto) {
     const { title, content } = dto
-    return this.articleModel.update({ title, content, updatedAt: new Date() }, { where: { id: articleId } })
+    return this.articleModel.update({ title, content }, { where: { id: articleId } })
   }
 }

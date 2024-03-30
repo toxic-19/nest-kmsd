@@ -9,5 +9,5 @@ export const databaseConfig: SequelizeModuleOptions = {
   database: 'order',
   synchronize: true,
   autoLoadModels: true, // 如果设置为true，将在项目启动时将模型定义同步数据库
-  // timezone: 'local', // 保存为本地时区
+  timezone: '+08:00', // 设置时区
 }

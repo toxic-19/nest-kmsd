@@ -17,6 +17,7 @@ import { Article } from './modules/article/model/article.model'
 import { TagModule } from './modules/tag/tag.module'
 import { Tag } from './modules/tag/model/tag.model'
 import { ArticleTag } from './modules/article/model/articleTag.model'
+import { UploadModule } from './modules/upload/upload.module'
 @Module({
   imports: [
     SequelizeModule.forRoot({
@@ -30,6 +31,7 @@ import { ArticleTag } from './modules/article/model/articleTag.model'
     GroupModule,
     ArticleModule,
     TagModule,
+    UploadModule,
   ], // 导入模块到AppModule里面，避免所有的Controller和Service都在AppModule里面导致太杂乱
   controllers: [AppController],
   providers: [AppService], // 实例化的提供者
