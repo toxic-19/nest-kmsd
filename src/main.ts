@@ -18,7 +18,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new Response()) // 定义全局-响应拦截器
   // app.useGlobalPipes(new ValidationPipe())
   app.useGlobalFilters(new HttpExceptionFilter()) // 全局使用异常过滤器 比如不存在的路径
-  app.useStaticAssets(join(__dirname, 'images'), { prefix: '/image' })
+  app.useStaticAssets(join(__dirname, '../images'), { prefix: '/doc' })
   const config = new DocumentBuilder() // swagger文档相关配置 在category模块进行配置参考
     .setTitle('InitNest swagger')
     .setDescription('The initNest API description')

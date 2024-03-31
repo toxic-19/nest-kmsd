@@ -6,11 +6,10 @@ import { FileInterceptor } from '@nestjs/platform-express'
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
   @Post()
-  @UseInterceptors(FileInterceptor('file')) // 'file'为前端表单字段名称
+  @UseInterceptors(FileInterceptor('file')) // file为前端表单字段名称
   async uploadFile(@UploadedFile() file) {
     console.log('file', file)
-    console.log(`${file.originalname} uploaded successfully.`)
-    return `Successfully uploaded ${file.path}`
+    return `http://localhost:3001/doc/${file.filename}`
   }
 
   @Get(':id')
