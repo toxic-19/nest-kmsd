@@ -5,12 +5,15 @@ import { GroupService } from '../group/group.service'
 import { CreateArticleDto } from './dto/create-article.dto'
 import { Article } from './model/article.model'
 import { ArticleTag } from './model/articleTag.model'
+import { TagService } from "~/modules/tag/tag.service";
 
 @Injectable()
 export class ArticleService {
   constructor(
     @Inject(forwardRef(() => GroupService))
     private readonly groupService: GroupService,
+    @Inject(forwardRef(() => TagService))
+    private readonly tagService: TagService,
     @InjectModel(Article) private articleModel: typeof Article,
     @InjectModel(ArticleTag) private articleTagModel: typeof ArticleTag,
   ) {}
@@ -52,8 +55,12 @@ export class ArticleService {
     // 1. 在article表中创建
     // 2. 如果是在已有分组下 在group-article中创建
     // 3. 如果只是在知识库下 在one-level中创建  label=2 childId=新建的articleId
-    const { knowId, groupId, ...artile } = createArticleDto
-    const articleId = (await this.articleModel.create(artile)).dataValues.id
+    const { knowId, groupId, tags, ...article } = createArticleDto
+    const tagIds = await this.tagService.getIdsByTagNames(tags)
+    const articleId = (await this.articleModel.create(article)).dataValues.id
+    // 在articleTagModel中创建 tagId - articleId 的记录
+    const records = tagIds.map((tagId) => ({ tagId, articleId }))
+    await this.articleTagModel.bulkCreate(records) // 批量添加记录
     if (groupId && articleId) {
       return this.groupService.createGroupArticle({
         articleId,

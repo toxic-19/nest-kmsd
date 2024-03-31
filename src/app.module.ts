@@ -23,7 +23,7 @@ import { UploadModule } from './modules/upload/upload.module'
     SequelizeModule.forRoot({
       // 导入数据库配置
       ...databaseConfig,
-      models: [User, KnowLedge, Group, OneLevel, Article, Tag, ArticleTag], // 实体模型注册，让Squelize知道存在
+      models: [User, KnowLedge, Group, OneLevel, Article, Tag, ArticleTag], // 实体模型注册，让Sequelize知道存在
     }),
     UserModule,
     CategoryModule,

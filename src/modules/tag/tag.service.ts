@@ -1,11 +1,16 @@
-import { Injectable } from '@nestjs/common'
+import { forwardRef, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { ArticleService } from '../article/article.service'
 import { Tag } from './model/tag.model'
+import { Inject } from '@nestjs/common/decorators'
 
 @Injectable()
 export class TagService {
-  constructor(private readonly articleService: ArticleService, @InjectModel(Tag) private tagModel: typeof Tag) {}
+  constructor(
+    @Inject(forwardRef(() => ArticleService))
+    private readonly articleService: ArticleService,
+    @InjectModel(Tag) private tagModel: typeof Tag,
+  ) {}
   getAllTags() {
     return this.tagModel.findAll()
   }
@@ -18,5 +23,16 @@ export class TagService {
         id: tagIds,
       },
     })
+  }
+  // method: 通过标签title获取id
+  async getIdsByTagNames(tagNames: Array<string>) {
+    return (
+      await this.tagModel.findAll({
+        attributes: ['id'],
+        where: {
+          tagName: tagNames,
+        },
+      })
+    ).map((item) => item.id)
   }
 }

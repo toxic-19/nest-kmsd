@@ -11,9 +11,4 @@ export class UploadController {
     console.log('file', file)
     return `http://localhost:3001/doc/${file.filename}`
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.uploadService.findOne(+id)
-  }
 }

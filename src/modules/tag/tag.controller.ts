@@ -15,4 +15,8 @@ export class TagController {
   getTagNameById(@Query() query: GetTagNameDto) {
     return this.tagService.getTagsNameByIds(+query.articleId)
   }
+  @Get('get')
+  getTag() {
+    return this.tagService.getIdsByTagNames(['英文', '语文'])
+  }
 }
