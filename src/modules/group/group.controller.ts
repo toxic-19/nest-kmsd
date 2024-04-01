@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Query, Body } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
-import { CreateGroupDto, GetGroupIdDto } from './dto/get-group.dto'
+import { CreateGroupDto, GetGroupIdDto, UpdateGroupDto } from './dto/get-group.dto'
 import { GroupService } from './group.service'
 
 @Controller('group')
@@ -16,7 +16,7 @@ export class GroupController {
     return this.groupService.createKnowGroup(createGroupDto)
   }
   @Post('updateName')
-  updateGroupName() {
-
+  updateGroupName(@Body() body: UpdateGroupDto) {
+    this.groupService.updateGroupName(body)
   }
 }

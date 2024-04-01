@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Group } from './model/group.model'
 import { InjectModel } from '@nestjs/sequelize'
-import { CreateGroupDto, GetGroupIdDto } from './dto/get-group.dto'
+import { CreateGroupDto, GetGroupIdDto, UpdateGroupDto } from './dto/get-group.dto'
 import { OneLevel } from './model/one-level.model'
 import { LabelValue } from './constant'
 import { ArticleService } from '../article/article.service'
@@ -110,5 +110,17 @@ export class GroupService {
     return this.oneLevelModel.create({
       ...createKnowGroup,
     })
+  }
+
+  updateGroupName(updateGroupDto: UpdateGroupDto) {
+    const { groupId, groupName } = updateGroupDto
+    return this.groupModel.update(
+      { groupName },
+      {
+        where: {
+          id: groupId,
+        },
+      },
+    )
   }
 }
