@@ -9,6 +9,8 @@ export class UploadController {
   @UseInterceptors(FileInterceptor('file')) // file为前端表单字段名称
   async uploadFile(@UploadedFile() file) {
     console.log('file', file)
-    return `http://localhost:3001/doc/${file.filename}`
+    const temp = []
+    temp.push({ name: file.originalname, url: `http://localhost:3001/doc/${file.filename}` })
+    return temp
   }
 }

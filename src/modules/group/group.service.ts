@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { Group } from './model/group.model'
 import { InjectModel } from '@nestjs/sequelize'
-import { GetGroupIdDto } from './dto/get-group.dto'
+import { CreateGroupDto, GetGroupIdDto } from './dto/get-group.dto'
 import { OneLevel } from './model/one-level.model'
 import { LabelValue } from './constant'
 import { ArticleService } from '../article/article.service'
 import { GroupArticle } from './model/group-article.model'
-import { CreateGroupArticleDto, CreateKnowArticleDto } from './dto/create-group-article.dto'
+import { CreateGroupArticleDto, CreateKnowArticleDto, CreateKnowGroupDto } from './dto/create-group-article.dto'
 @Injectable()
 export class GroupService {
   constructor(
@@ -26,7 +26,7 @@ export class GroupService {
         obj[key] = await this.getGroupByIds(list[key])
       }
     }
-    for (let item of obj.group) {
+    for (const item of obj.group) {
       const articleList = await this.getArticleIdsByGroupId(item.groupId)
       item.childrenData = articleList
     }
@@ -90,6 +90,25 @@ export class GroupService {
   createKnowArticle(createKnowArticleDto: CreateKnowArticleDto) {
     return this.oneLevelModel.create({
       ...createKnowArticleDto,
+    })
+  }
+  // 1. create group in groupModel
+  // 2. create in oneLevelModel
+  async createKnowGroup(createGroupDto: CreateGroupDto) {
+    console.log(createGroupDto)
+    const { knowId, groupName } = createGroupDto
+    const groupId = (
+      await this.groupModel.create({
+        groupName,
+      })
+    ).dataValues.id
+    const createKnowGroup: CreateKnowGroupDto = {
+      knowId,
+      childId: groupId,
+      label: 2,
+    }
+    return this.oneLevelModel.create({
+      ...createKnowGroup,
     })
   }
 }

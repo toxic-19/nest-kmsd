@@ -12,6 +12,15 @@ export class CreateKnowArticleDto {
   knowId: number
   @IsNotEmpty({ message: '文档Id不能为空' })
   childId: number
-  //  1 是文档 2 是知识库
+  //  1 是文档 2 是分组
+  label: number
+}
+
+export class CreateKnowGroupDto {
+  @IsNotEmpty({ message: '知识库Id不能为空' })
+  knowId: number
+  @IsNotEmpty({ message: '分组Id不能为空' })
+  childId: number
+  //  1 是文档 2 是分组
   label: number
 }

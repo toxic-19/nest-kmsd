@@ -5,7 +5,7 @@ import { GroupService } from '../group/group.service'
 import { CreateArticleDto } from './dto/create-article.dto'
 import { Article } from './model/article.model'
 import { ArticleTag } from './model/articleTag.model'
-import { TagService } from "~/modules/tag/tag.service";
+import { TagService } from '~/modules/tag/tag.service'
 
 @Injectable()
 export class ArticleService {
