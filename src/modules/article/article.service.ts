@@ -6,6 +6,7 @@ import { CreateArticleDto } from './dto/create-article.dto'
 import { Article } from './model/article.model'
 import { ArticleTag } from './model/articleTag.model'
 import { TagService } from '~/modules/tag/tag.service'
+import { DelType } from '~/modules/article/constant'
 
 @Injectable()
 export class ArticleService {
@@ -18,7 +19,11 @@ export class ArticleService {
     @InjectModel(ArticleTag) private articleTagModel: typeof ArticleTag,
   ) {}
   getArticleList() {
-    return this.articleModel.findAll()
+    return this.articleModel.findAll({
+      where: {
+        isDel: DelType['notDel'],
+      },
+    })
   }
   getArticleById(articleId: number) {
     return this.articleModel.findOne({ where: { id: articleId } })
@@ -28,11 +33,28 @@ export class ArticleService {
       attributes: [['id', 'articleId'], 'title', 'description'], // 字段重命名
       where: {
         id: ids,
+        isDel: DelType['notDel'],
       },
     })
     return result.map((item) => item.dataValues)
   }
-  async getArticleByTagId(query: { tagId: number }) {}
+  async getArticleByTagId(query: { tagId: number }) {
+    const articleIdsList = (
+      await this.articleTagModel.findAll({
+        attributes: ['articleId'],
+        where: {
+          tagId: query.tagId,
+        },
+      })
+    ).map((doc) => doc.dataValues.articleId)
+    return this.articleModel.findAll({
+      attributes: ['id', 'title', 'description', 'content', 'createdAt', 'updatedAt'],
+      where: {
+        id: articleIdsList,
+        isDel: DelType['notDel'],
+      },
+    })
+  }
 
   // method: 在文章-标签表中获取到articleId中的所有标签id
   async getTagIdsByArticleId(articleId: number) {
@@ -83,5 +105,17 @@ export class ArticleService {
   async updateArticleById(articleId, dto) {
     const { title, content } = dto
     return this.articleModel.update({ title, content }, { where: { id: articleId } })
+  }
+  // 删除文章 - 修改isDel
+  async updateIsDel(articleId: number) {
+    const res = await this.articleModel.update(
+      { isDel: DelType['deleted'] },
+      {
+        where: {
+          id: articleId,
+        },
+      },
+    )
+    return res[0] === 1 ? articleId : []
   }
 }

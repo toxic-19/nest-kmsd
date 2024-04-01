@@ -12,7 +12,7 @@ export class ArticleController {
     return this.articleService.getArticleList()
   }
   // 通过articleId获取文章的具体内容
-  @Get('getContent') // TODO 这个路径得改
+  @Get('getContent')
   getArticleContentById(@Query() query: { articleId: number }) {
     return this.articleService.getArticleById(query.articleId)
   }
@@ -31,5 +31,10 @@ export class ArticleController {
   @Post('updateDoc/:id')
   postUpdateArticle(@Param('id') articleId: number, @Body() body: Record<string, any>) {
     return this.articleService.updateArticleById(articleId, body)
+  }
+
+  @Post('deleteArticle')
+  deleteArticle(@Query() query: { articleId: number }) {
+    return this.articleService.updateIsDel(query.articleId)
   }
 }

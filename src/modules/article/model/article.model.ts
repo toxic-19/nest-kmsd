@@ -15,4 +15,6 @@ export class Article extends Model<Article> {
   author: string
   @Column
   preview: string
+  @Column
+  isDel: number
 }
