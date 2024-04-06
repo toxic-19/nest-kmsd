@@ -1,4 +1,10 @@
-import { PartialType } from '@nestjs/swagger'
-import { CreateProjectDto } from './create-project.dto'
+import { IsNotEmpty } from 'class-validator'
 
-export class UpdateProjectDto extends PartialType(CreateProjectDto) {}
+export class UpdateProjectDto {}
+
+export class UpdateProjectName {
+  @IsNotEmpty({ message: '重命名时名称不能为空' })
+  projectName: string
+  @IsNotEmpty({ message: '请传递需要修改的项目id' })
+  id: number
+}

@@ -18,7 +18,6 @@ export class Response<T> implements NestInterceptor {
     return next.handle().pipe(
       // next.handle() 拦截响应数据
       map((data) => {
-        console.log('返回', data)
         const httpStatus = data && data.httpStatus ? data.httpStatus : 200
         const responseMessage = data && data.responseMessage ? data.responseMessage : '操作成功'
         const responseData = data && data.httpStatus ? null : data

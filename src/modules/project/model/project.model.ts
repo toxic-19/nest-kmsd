@@ -11,4 +11,6 @@ export class Project extends Model {
   author: string
   @Column({ comment: '项目流程模板，目前是前端提供的' })
   processTemplate: number
+  @Column({ comment: '项目挂起，1是挂起，0是进行中默认', defaultValue: 0 })
+  isHangUp: boolean
 }
