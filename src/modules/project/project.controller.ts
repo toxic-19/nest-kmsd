@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from "@nestjs/common";
+import { Controller, Get, Post, Body, Param, Delete, Query } from '@nestjs/common'
 import { ProjectService } from './project.service'
 import { CreateProjectDto } from './dto/create-project.dto'
-import { UpdateProjectDto, UpdateProjectName } from "./dto/update-project.dto";
-import { getProjectDto } from "~/modules/project/dto/get-project.dto";
+import { UpdateProjectName } from './dto/update-project.dto'
+import { getProjectDto } from './dto/get-project.dto'
 
 @Controller('project')
 export class ProjectController {
