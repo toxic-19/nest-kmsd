@@ -1,15 +1,16 @@
-import { Injectable } from '@nestjs/common'
-import { CreateTaskDto } from './dto/create-task.dto'
-import { UpdateTaskDto } from './dto/update-task.dto'
-import { InjectModel } from '@nestjs/sequelize'
-import { Task } from './model/task.model'
-import { GetTaskByProcessDto } from './dto/get-task.dto'
+import { Injectable } from "@nestjs/common";
+import { CreateTaskDto } from "./dto/create-task.dto";
+import { UpdateTaskDto } from "./dto/update-task.dto";
+import { InjectModel } from "@nestjs/sequelize";
+import { Task } from "./model/task.model";
+import { GetAllTaskByProjectDto, GetTaskByProcessDto } from "./dto/get-task.dto";
+import { RespMap } from "~/common/interceptor/respMap";
 
 @Injectable()
 export class TaskService {
-  constructor(@InjectModel(Task) private taskService: typeof Task) {}
+  constructor(@InjectModel(Task) private taskModel: typeof Task) {}
   create(createTaskDto: CreateTaskDto) {
-    return this.taskService.create({
+    return this.taskModel.create({
       ...createTaskDto,
     })
   }
@@ -17,7 +18,7 @@ export class TaskService {
   findByProcessAndID(queryByProcessName: GetTaskByProcessDto) {
     const { projectId, processName } = queryByProcessName
     if (projectId && processName) {
-      return this.taskService.findAll({
+      return this.taskModel.findAll({
         where: {
           projectId,
           processName,
@@ -37,14 +38,38 @@ export class TaskService {
 
   update(updateTaskDto: UpdateTaskDto) {
     const { id, ...args } = updateTaskDto
-    return this.taskService.update(args, {
+    return this.taskModel.update(args, {
       where: {
         id,
       },
     })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} task`
+  async findByProjectId(query: GetAllTaskByProjectDto) {
+    const { projectId } = query
+    if (projectId) {
+      const list = (
+        await this.taskModel.findAll({
+          where: {
+            projectId,
+          },
+        })
+      ).map(({ dataValues }) => {
+        dataValues.dateStart = new Date(dataValues.dateStart).getTime() / 1000
+        dataValues.dateEnd = new Date(dataValues.dateEnd).getTime() / 1000
+        return dataValues
+      })
+      return list.reduce((acc, cur) => {
+        const lastGroup = acc[acc.length - 1]
+        console.log(lastGroup)
+        if (lastGroup && lastGroup.processName === cur.processName) {
+          lastGroup.taskLists.push(cur)
+        } else {
+          acc.push({ title: cur.processName, projectId: cur.projectId, taskLists: [cur] })
+        }
+        return acc
+      }, [])
+    }
+    return RespMap.get('noArgs')
   }
 }
