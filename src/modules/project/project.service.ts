@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { CreateProjectDto } from './dto/create-project.dto'
-import { UpdateProjectName } from './dto/update-project.dto'
+import { HangupProjectQuery, UpdateProjectName } from './dto/update-project.dto'
 import { InjectModel } from '@nestjs/sequelize'
 import { Project } from './model/project.model'
 import { HangUP, TEMPLATE_MAP } from '~/modules/project/constant/template'
@@ -65,7 +65,17 @@ export class ProjectService {
     )
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} project`
+  hangUpProject(query: HangupProjectQuery) {
+    const { id, isHangUp } = query
+    return this.projectModel.update(
+      {
+        isHangUp,
+      },
+      {
+        where: {
+          id,
+        },
+      },
+    )
   }
 }
