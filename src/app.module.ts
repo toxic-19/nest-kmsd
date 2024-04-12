@@ -22,6 +22,7 @@ import { UploadModule } from './modules/upload/upload.module'
 import { ProjectModule } from './modules/project/project.module'
 import { TaskModule } from './modules/task/task.module'
 import { Task } from '~/modules/task/model/task.model'
+import { SparkModule } from './modules/spark/spark.module';
 @Module({
   imports: [
     SequelizeModule.forRoot({
@@ -38,6 +39,7 @@ import { Task } from '~/modules/task/model/task.model'
     UploadModule,
     ProjectModule,
     TaskModule,
+    SparkModule,
   ], // 导入模块到AppModule里面，避免所有的Controller和Service都在AppModule里面导致太杂乱
   controllers: [AppController],
   providers: [AppService], // 实例化的提供者

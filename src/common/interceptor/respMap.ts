@@ -7,4 +7,12 @@ export const RespMap = new Map([
       success: false,
     },
   ],
+  [
+    'error',
+    {
+      httpStatus: '0',
+      responseMessage: '系统故障',
+      success: false,
+    },
+  ],
 ])
