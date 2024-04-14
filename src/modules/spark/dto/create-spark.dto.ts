@@ -1,1 +1,3 @@
-export class ChatSparkDto {}
+export class CreateSessionDto {
+  sessionName: string
+}

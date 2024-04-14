@@ -15,4 +15,20 @@ export const RespMap = new Map([
       success: false,
     },
   ],
+  [
+    'updateError',
+    {
+      httpStatus: '0',
+      responseMessage: '修改失败',
+      success: false,
+    },
+  ],
+  [
+    'delError',
+    {
+      httpStatus: '0',
+      responseMessage: '删除失败',
+      success: false,
+    },
+  ],
 ])
