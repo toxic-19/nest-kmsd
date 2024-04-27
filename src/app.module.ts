@@ -23,13 +23,12 @@ import { ProjectModule } from './modules/project/project.module'
 import { TaskModule } from './modules/task/task.module'
 import { Task } from '~/modules/task/model/task.model'
 import { SparkModule } from './modules/spark/spark.module'
-import { History, Session } from '~/modules/spark/model/spark.model'
+import { History, Session, UploadFile } from '~/modules/spark/model/spark.model'
 @Module({
   imports: [
     SequelizeModule.forRoot({
-      // 导入数据库配置
-      ...databaseConfig,
-      models: [User, KnowLedge, Group, OneLevel, Article, Tag, ArticleTag, Project, Task, Session, History], // 实体模型注册，让Sequelize知道存在
+      ...databaseConfig, // 导入数据库配置
+      models: [User, KnowLedge, Group, OneLevel, Article, Tag, ArticleTag, Project, Task, Session, History, UploadFile], // 实体模型注册，让Sequelize知道存在
     }),
     UserModule,
     CategoryModule,

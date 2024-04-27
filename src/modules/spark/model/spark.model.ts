@@ -23,3 +23,12 @@ export class History extends Model {
   @IsIn(['user', 'assistant'])
   role: string
 }
+@Table
+export class UploadFile extends Model {
+  @Column({ primaryKey: true, type: DataType.INTEGER, autoIncrement: true })
+  id: number
+  @Column({ type: DataType.STRING, comment: '用于问题定位ID' })
+  sid: string
+  @Column({ type: DataType.STRING, comment: '上传的文件id' })
+  fileId: string
+}
