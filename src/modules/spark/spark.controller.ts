@@ -4,6 +4,7 @@ import { CreateSessionDto, SaveHistoryDto } from './dto/create-spark.dto'
 import { DeleteSessionDto, ReNameDto } from './dto/update-spark.dto'
 import { GetHistoryDto, GetSavedFileDto } from './dto/get-spark.dto'
 import { ArticleService } from '../article/article.service'
+import { query } from 'express'
 @Controller('spark')
 export class SparkController {
   constructor(private readonly sparkService: SparkService, private readonly articleService: ArticleService) {}
@@ -34,10 +35,14 @@ export class SparkController {
   }
   @Post('/file/save')
   async saveMdFile(@Query() query: GetSavedFileDto) {
-    const { articleId } = query
+    const { articleId, needSummary } = query
     const {
       dataValues: { content, title },
     } = await this.articleService.getArticleById(articleId)
-    return this.sparkService.changeToMdFile(content, title)
+    return this.sparkService.changeToMdFile({ content, title, articleId, needSummary })
+  }
+  @Post('/file/summary')
+  getSummaryByFileId(@Query() query: { fileId: string; restart: boolean }) {
+    return this.sparkService.getfileSummary(query.fileId, query.restart)
   }
 }

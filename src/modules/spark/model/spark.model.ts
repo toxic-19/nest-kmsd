@@ -31,4 +31,6 @@ export class UploadFile extends Model {
   sid: string
   @Column({ type: DataType.STRING, comment: '上传的文件id' })
   fileId: string
+  @Column({ type: DataType.STRING, comment: '文档总结' })
+  summary: string
 }

@@ -1,16 +1,21 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { History, Session } from './model/spark.model'
+import { History, Session, UploadFile } from './model/spark.model'
 import { CreateSessionDto, SaveHistoryDto } from '~/modules/spark/dto/create-spark.dto'
 import { DELTYPE } from '~/modules/spark/constant'
 import { DeleteSessionDto, ReNameDto } from '~/modules/spark/dto/update-spark.dto'
 import { RespMap } from '~/common/interceptor/respMap'
-import { GetHistoryDto } from '~/modules/spark/dto/get-spark.dto'
+import { GetHistoryDto, GetSavedFileDto } from '~/modules/spark/dto/get-spark.dto'
 import * as fs from 'fs'
-import { uploadDocument } from './utils/auth'
+import { fileSummary, uploadDocument } from './utils/auth'
+import { where } from 'sequelize'
 @Injectable()
 export class SparkService {
-  constructor(@InjectModel(Session) private sessionModel: typeof Session, @InjectModel(History) private historyModel: typeof History) {}
+  constructor(
+    @InjectModel(Session) private sessionModel: typeof Session,
+    @InjectModel(History) private historyModel: typeof History,
+    @InjectModel(UploadFile) private uploadFileModel: typeof UploadFile,
+  ) {}
   // 获取会话列表
   getSession() {
     return this.sessionModel.findAll({
@@ -93,10 +98,40 @@ export class SparkService {
     })
   }
 
-  // 将文本转换为为md文件
-  changeToMdFile(content: string, title: string) {
-    fs.writeFileSync(`files/${title}.md`, content)
-    uploadDocument(title)
+  // 将文本转换为为md文件并上传
+  async changeToMdFile(dto: GetSavedFileDto) {
+    const { content, title, articleId, needSummary } = dto
+    fs.writeFileSync(`files/${title}.md`, content) // 同步函数
+    const fileDto = await uploadDocument(title) // 知识库上传文件 返回 fileId和sid
     // fs.renameSync('files/测试.txt', 'files/测试.md')
+    if (fileDto.code === 0) {
+      if (needSummary) {
+        // 调用文档总结
+        this.getfileSummary(fileDto.fileId)
+      }
+      // 保存到数据库中
+      await this.uploadFileModel.create({
+        ...fileDto,
+        articleId,
+      })
+    }
+  }
+  async getfileSummary(fileId: string, restart?: boolean) {
+    const {
+      dataValues: { summary: summaryInDateBase },
+    } = await this.uploadFileModel.findOne({
+      where: {
+        fileId: fileId,
+      },
+    })
+    if (summaryInDateBase) {
+      if (!restart) return summaryInDateBase
+    }
+    const summaryRes = await fileSummary(fileId)
+    if (summaryRes.code === 0) {
+      // 保存到数据库中
+      this.uploadFileModel.update({ summary: summaryRes.data.summary }, { where: { fileId: fileId } })
+    }
+    return summaryRes.data.summary || null
   }
 }
