@@ -47,9 +47,6 @@ export class ProjectService {
     })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} project`
-  }
   // POST 重命名
   update(updateProjectName: UpdateProjectName) {
     const { id, projectName } = updateProjectName

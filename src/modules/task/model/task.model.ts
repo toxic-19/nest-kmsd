@@ -44,4 +44,9 @@ export class Task extends Model {
     comment: '外键，项目id',
   })
   projectId: number
+  @Column({
+    type: DataType.INTEGER,
+    comment: '是否删除 0为false 1为true 默认为0',
+  })
+  isDel: boolean
 }

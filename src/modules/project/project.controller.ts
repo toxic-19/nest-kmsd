@@ -18,11 +18,6 @@ export class ProjectController {
     return this.projectService.findAll(query)
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.projectService.findOne(+id)
-  }
-
   @Post('/updateName')
   update(@Query() updateProjectName: UpdateProjectName) {
     return this.projectService.update(updateProjectName)
