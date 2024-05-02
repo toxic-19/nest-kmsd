@@ -9,6 +9,7 @@ import { GetHistoryDto, GetSavedFileDto } from '~/modules/spark/dto/get-spark.dt
 import * as fs from 'fs'
 import { fileSummary, uploadDocument } from './utils/auth'
 import { where } from 'sequelize'
+import { Fn } from 'sequelize/types/utils'
 @Injectable()
 export class SparkService {
   constructor(
@@ -66,14 +67,24 @@ export class SparkService {
   }
   // 保存记录
   saveHistory(historyDto: SaveHistoryDto) {
-    const { sessionId, userInput, assistantResponse } = historyDto
-    // 确保是已存在的sessionId
-    if (this.isLegalId(sessionId) && userInput && assistantResponse) {
-      const data = [
-        { role: 'user', content: userInput, sessionId },
-        { role: 'assistant', content: assistantResponse, sessionId },
-      ]
-      return this.historyModel.bulkCreate(data)
+    const { sessionId, articleId, userInput, assistantResponse } = historyDto
+    if (userInput && assistantResponse) {
+      // 判断是对话还是文档问答
+      // 确保是传入了已存在的sessionId
+      if (sessionId && this.isLegalId(sessionId)) {
+        const data = [
+          { role: 'user', content: userInput, sessionId },
+          { role: 'assistant', content: assistantResponse, sessionId },
+        ]
+        return this.historyModel.bulkCreate(data)
+      }
+      if (articleId) {
+        const data = [
+          { role: 'user', content: userInput, articleId },
+          { role: 'assistant', content: assistantResponse, articleId },
+        ]
+        return this.historyModel.bulkCreate(data)
+      }
     }
     return RespMap.get('noArgs')
   }
@@ -86,18 +97,28 @@ export class SparkService {
     })
     return res !== null
   }
-  // 获取sessionId下的聊天记录
-  getHistoriesBySessionId(query: GetHistoryDto) {
-    const { sessionId, page = 1, pageSize = 10 } = query
+  // 获取sessionId或者文档下的聊天记录
+  async getHistoriesBySessionId(query: GetHistoryDto) {
+    const { sessionId, articleId, page = 1, pageSize = 20 } = query
     return this.historyModel.findAll({
       where: {
-        sessionId,
+        ...(sessionId && { sessionId }),
+        ...(articleId && { articleId }),
       },
+      // order: [['createdAt', 'DESC']],
       offset: pageSize * (page - 1),
       limit: pageSize,
     })
   }
-
+  async getFileIdByArticleId(articleId) {
+    const res = await this.uploadFileModel.findOne({
+      where: {
+        articleId,
+      },
+    })
+    if (res === null) return RespMap.get('noArticleId')
+    return res
+  }
   // 将文本转换为为md文件并上传
   async changeToMdFile(dto: GetSavedFileDto) {
     const { content, title, articleId, needSummary } = dto

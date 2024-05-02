@@ -1,7 +1,8 @@
 export class GetHistoryDto {
-  sessionId: number
-  pageSize: number
-  page: number
+  sessionId?: number
+  articleId?: number
+  pageSize?: number
+  page?: number
 }
 export class GetSavedFileDto {
   // content: string

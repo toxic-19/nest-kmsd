@@ -22,6 +22,8 @@ export class History extends Model {
   @Column({ comment: '记录所属角色' })
   @IsIn(['user', 'assistant'])
   role: string
+  @Column({ comment: '文档问答中所属文档id' })
+  articleId: number
 }
 @Table
 export class UploadFile extends Model {

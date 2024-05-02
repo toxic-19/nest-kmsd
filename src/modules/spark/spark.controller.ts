@@ -4,7 +4,6 @@ import { CreateSessionDto, SaveHistoryDto } from './dto/create-spark.dto'
 import { DeleteSessionDto, ReNameDto } from './dto/update-spark.dto'
 import { GetHistoryDto, GetSavedFileDto } from './dto/get-spark.dto'
 import { ArticleService } from '../article/article.service'
-import { query } from 'express'
 @Controller('spark')
 export class SparkController {
   constructor(private readonly sparkService: SparkService, private readonly articleService: ArticleService) {}
@@ -25,6 +24,7 @@ export class SparkController {
   deleteSession(@Query() query: DeleteSessionDto) {
     return this.sparkService.deleteSession(query)
   }
+  // 保存当次聊天的对话记录
   @Post('/history/save')
   saveHistory(@Body() body: SaveHistoryDto) {
     return this.sparkService.saveHistory(body)
@@ -32,6 +32,11 @@ export class SparkController {
   @Get('/history/list')
   getHistory(@Query() query: GetHistoryDto) {
     return this.sparkService.getHistoriesBySessionId(query)
+  }
+
+  @Get('/file/fileId')
+  async getFileIdByArticleId(@Query() query: { articleId: number }) {
+    return this.sparkService.getFileIdByArticleId(query.articleId)
   }
   @Post('/file/save')
   async saveMdFile(@Query() query: GetSavedFileDto) {

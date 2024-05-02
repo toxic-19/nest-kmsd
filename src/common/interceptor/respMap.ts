@@ -31,4 +31,12 @@ export const RespMap = new Map([
       success: false,
     },
   ],
+  [
+    'noArticleId',
+    {
+      httpStatus: '0',
+      responseMessage: '该文档无法查询',
+      success: false,
+    },
+  ],
 ])
