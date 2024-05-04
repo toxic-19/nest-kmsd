@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common'
+import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { GetTagNameDto } from './dto/get-tag.dto'
 import { TagService } from './tag.service'
@@ -18,5 +18,9 @@ export class TagController {
   @Get('get')
   getTag() {
     return this.tagService.getIdsByTagNames(['英文', '语文'])
+  }
+  @Post('add')
+  addTag(@Body() body: { tagName: string }) {
+    return this.tagService.addTag(body.tagName)
   }
 }

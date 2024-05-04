@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/sequelize'
 import { ArticleService } from '../article/article.service'
 import { Tag } from './model/tag.model'
 import { Inject } from '@nestjs/common/decorators'
+import { RespMap } from '~/common/interceptor/respMap'
 
 @Injectable()
 export class TagService {
@@ -34,5 +35,22 @@ export class TagService {
         },
       })
     ).map((item) => item.id)
+  }
+  // method: 新增文章的时候，如果该标签没有在数据库中，需要新增该标签
+  async addTag(tagName: string) {
+    const res = await this.tagModel.findOne({
+      where: { tagName },
+    })
+    console.log(res)
+    if (res === null) {
+      return this.tagModel.create({
+        tagName,
+      })
+    } else {
+      return {
+        msg: '该标签已存在',
+        ...res.dataValues,
+      }
+    }
   }
 }

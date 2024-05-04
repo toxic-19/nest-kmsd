@@ -23,6 +23,7 @@ export class SparkService {
       where: {
         isDel: DELTYPE.notDel,
       },
+      order: [['updatedAt', 'DESC']],
     })
   }
   // 新增会话
@@ -99,15 +100,15 @@ export class SparkService {
   }
   // 获取sessionId或者文档下的聊天记录
   async getHistoriesBySessionId(query: GetHistoryDto) {
-    const { sessionId, articleId, page = 1, pageSize = 20 } = query
+    const { sessionId, articleId } = query
     return this.historyModel.findAll({
       where: {
         ...(sessionId && { sessionId }),
         ...(articleId && { articleId }),
       },
       // order: [['createdAt', 'DESC']],
-      offset: pageSize * (page - 1),
-      limit: pageSize,
+      // offset: pageSize * (page - 1),
+      // limit: pageSize,
     })
   }
   async getFileIdByArticleId(articleId) {

@@ -39,4 +39,12 @@ export const RespMap = new Map([
       success: false,
     },
   ],
+  [
+    'tagHasExisted',
+    {
+      httpStatus: '0',
+      responseMessage: '该标签已经存在',
+      success: false,
+    },
+  ],
 ])

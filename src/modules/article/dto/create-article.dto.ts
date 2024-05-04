@@ -7,3 +7,11 @@ export class CreateArticleDto {
   content?: string
   preview?: string
 }
+export class RemoveTagDto {
+  articleId: number
+  tagId: number
+}
+export class AddTagDto {
+  articleId: number
+  tagName: string
+}

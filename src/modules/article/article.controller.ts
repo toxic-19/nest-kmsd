@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ArticleService } from './article.service'
-import { CreateArticleDto } from './dto/create-article.dto'
+import { AddTagDto, CreateArticleDto, RemoveTagDto } from './dto/create-article.dto'
 
 @Controller('article')
 @ApiTags('article')
@@ -16,11 +16,11 @@ export class ArticleController {
   getArticleContentById(@Query() query: { articleId: number }) {
     return this.articleService.getArticleById(query.articleId)
   }
+  // 获取标签下的所有文章
   @Get('getByTagId')
   getArticleByTagId(@Query() query) {
     return this.articleService.getArticleByTagId(query)
   }
-
   // 创建文章
   @Post('createDoc')
   postCreateArticle(@Body() createArticleDto: CreateArticleDto) {
@@ -36,5 +36,15 @@ export class ArticleController {
   @Post('deleteArticle')
   deleteArticle(@Query() query: { articleId: number }) {
     return this.articleService.updateIsDel(query.articleId)
+  }
+
+  @Post('removeTag')
+  deleteTagForArticle(@Body() body: RemoveTagDto) {
+    return this.articleService.deleteTagForArticle(body)
+  }
+
+  @Post('addTag')
+  addTagForArticle(@Body() body: AddTagDto) {
+    return this.articleService.addTagForArticle(body)
   }
 }

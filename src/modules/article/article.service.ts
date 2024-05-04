@@ -2,11 +2,12 @@ import { forwardRef, Injectable } from '@nestjs/common'
 import { Inject } from '@nestjs/common/decorators'
 import { InjectModel } from '@nestjs/sequelize'
 import { GroupService } from '../group/group.service'
-import { CreateArticleDto } from './dto/create-article.dto'
+import { AddTagDto, CreateArticleDto, RemoveTagDto } from './dto/create-article.dto'
 import { Article } from './model/article.model'
 import { ArticleTag } from './model/articleTag.model'
 import { TagService } from '~/modules/tag/tag.service'
 import { DelType } from '~/modules/article/constant'
+import { RespMap } from '~/common/interceptor/respMap'
 
 @Injectable()
 export class ArticleService {
@@ -117,5 +118,34 @@ export class ArticleService {
       },
     )
     return res[0] === 1 ? articleId : []
+  }
+
+  // 删除文档上标签
+  deleteTagForArticle(body: RemoveTagDto) {
+    const { tagId, articleId } = body
+    return this.articleTagModel.destroy({
+      where: {
+        tagId,
+        articleId,
+      },
+    })
+  }
+
+  async addTagForArticle(body: AddTagDto) {
+    const { tagName, articleId } = body
+    const { id } = await this.tagService.addTag(tagName)
+    const res = await this.articleTagModel.findOne({
+      where: {
+        tagId: id,
+        articleId,
+      },
+    })
+    console.log('res', res, res === null)
+    if (res === null) {
+      return this.articleTagModel.create({
+        tagId: id,
+        articleId,
+      })
+    } else return RespMap.get('tagHasExisted')
   }
 }
