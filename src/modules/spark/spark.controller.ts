@@ -39,12 +39,13 @@ export class SparkController {
     return this.sparkService.getFileIdByArticleId(query.articleId)
   }
   @Post('/file/save')
-  async saveMdFile(@Query() query: GetSavedFileDto) {
+  async saveMdFile(@Body() query: GetSavedFileDto) {
     const { articleId, needSummary } = query
-    const {
-      dataValues: { content, title },
-    } = await this.articleService.getArticleById(articleId)
-    return this.sparkService.changeToMdFile({ content, title, articleId, needSummary })
+    const data = await this.articleService.getArticleById(articleId)
+    if (data !== null) {
+      const { content, title } = data.dataValues
+      return this.sparkService.changeToMdFile({ content, title, articleId, needSummary })
+    }
   }
   @Post('/file/summary')
   getSummaryByFileId(@Query() query: { fileId: string; restart: boolean }) {

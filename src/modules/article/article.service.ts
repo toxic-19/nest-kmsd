@@ -27,7 +27,8 @@ export class ArticleService {
     })
   }
   getArticleById(articleId: number) {
-    return this.articleModel.findOne({ where: { id: articleId } })
+    console.log('article============', articleId)
+    return this.articleModel.findOne({ where: { id: articleId, isDel: DelType['notDel'] } })
   }
   async getArticleNameByIds(ids: number[]) {
     const result = await this.articleModel.findAll({

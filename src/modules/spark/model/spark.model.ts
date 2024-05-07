@@ -35,4 +35,6 @@ export class UploadFile extends Model {
   fileId: string
   @Column({ type: DataType.STRING, comment: '文档总结' })
   summary: string
+  @Column({ type: DataType.INTEGER, comment: '文章id' })
+  articleId: number
 }

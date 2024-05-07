@@ -122,20 +122,35 @@ export class SparkService {
   }
   // 将文本转换为为md文件并上传
   async changeToMdFile(dto: GetSavedFileDto) {
-    const { content, title, articleId, needSummary } = dto
+    const { content, title, articleId } = dto
+    const fileContent = await this.uploadFileModel.findOne({
+      where: {
+        articleId: articleId,
+      },
+    })
     fs.writeFileSync(`files/${title}.md`, content) // 同步函数
     const fileDto = await uploadDocument(title) // 知识库上传文件 返回 fileId和sid
     // fs.renameSync('files/测试.txt', 'files/测试.md')
     if (fileDto.code === 0) {
-      if (needSummary) {
-        // 调用文档总结
-        this.getfileSummary(fileDto.fileId)
+      if (fileContent === null) {
+        // 保存到数据库中
+        await this.uploadFileModel.create({
+          ...fileDto,
+          articleId,
+        })
+      } else {
+        await this.uploadFileModel.update(
+          {
+            ...fileDto,
+          },
+          {
+            where: {
+              id: fileContent.dataValues.id,
+            },
+          },
+        )
       }
-      // 保存到数据库中
-      await this.uploadFileModel.create({
-        ...fileDto,
-        articleId,
-      })
+      return fileDto.fileId
     }
   }
   async getfileSummary(fileId: string, restart?: boolean) {
@@ -146,14 +161,20 @@ export class SparkService {
         fileId: fileId,
       },
     })
+    // summaryInDateBase有值则为总结过，直接返回数据库中的summary即可
     if (summaryInDateBase) {
       if (!restart) return summaryInDateBase
+      else {
+        // 重新总结
+        return
+      }
     }
-    const summaryRes = await fileSummary(fileId)
-    if (summaryRes.code === 0) {
+    // 没有总结过：
+    let summaryRes = await fileSummary(fileId) // 总结
+    if (summaryRes.data) {
       // 保存到数据库中
       this.uploadFileModel.update({ summary: summaryRes.data.summary }, { where: { fileId: fileId } })
+      return summaryRes.data.summary
     }
-    return summaryRes.data.summary || null
   }
 }
