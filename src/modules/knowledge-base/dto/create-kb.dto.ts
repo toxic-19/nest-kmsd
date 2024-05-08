@@ -10,3 +10,11 @@ export class CreateKbDto {
   })
   isTop: boolean
 }
+export class UpdateKbDto {
+  id: number
+  kbName: string
+  kbDesc: string
+  isTop: boolean
+  cover: string
+  isDel: boolean
+}

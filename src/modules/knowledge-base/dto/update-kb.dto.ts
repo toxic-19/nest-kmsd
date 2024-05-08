@@ -7,3 +7,6 @@ export class UpdateIsTopDto {
   })
   isTop: boolean
 }
+export class GetKnowInfoDto {
+  knowId: number
+}

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { KnowLedge } from './model/knowLedge.model'
 import { UpdateIsTopDto } from './dto/update-kb.dto'
-import { CreateKbDto } from './dto/create-kb.dto'
+import { CreateKbDto, UpdateKbDto } from './dto/create-kb.dto'
 @Injectable()
 export class KnowledgeBaseService {
   constructor(@InjectModel(KnowLedge) private kbModel: typeof KnowLedge) {}
@@ -37,5 +37,24 @@ export class KnowledgeBaseService {
       cover: defaultImage,
       isTop,
     })
+  }
+  getKnowInfoById(knowId: number) {
+    return this.kbModel.findOne({
+      attributes: ['id', 'kbName', 'kbDesc', 'isTop', 'cover', 'isDel'],
+      where: {
+        id: knowId,
+      },
+    })
+  }
+  updateKnowBase(body: UpdateKbDto) {
+    const { id, ...dto } = body
+    return this.kbModel.update(
+      {
+        ...dto,
+      },
+      {
+        where: { id },
+      },
+    )
   }
 }
