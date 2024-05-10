@@ -1,0 +1,18 @@
+INSERT INTO `tags` VALUES (5, 'JavaScript with HTML');
+INSERT INTO `tags` VALUES (6, 'ES6');
+INSERT INTO `tags` VALUES (7, '流程');
+INSERT INTO `tags` VALUES (8, 'UI');
+INSERT INTO `tags` VALUES (9, 'Vue2');
+INSERT INTO `tags` VALUES (10, 'VueX');
+INSERT INTO `tags` VALUES (11, 'Vue3');
+INSERT INTO `tags` VALUES (12, 'Pinia');
+INSERT INTO `tags` VALUES (13, '项目');
+INSERT INTO `tags` VALUES (14, '引用');
+INSERT INTO `tags` VALUES (15, '通用');
+INSERT INTO `tags` VALUES (19, 'JavaScript');
+INSERT INTO `tags` VALUES (25, 'Proxy');
+INSERT INTO `tags` VALUES (26, '性能');
+INSERT INTO `tags` VALUES (27, 'TypeScript');
+INSERT INTO `tags` VALUES (28, '系统');
+INSERT INTO `tags` VALUES (29, 'ER');
+INSERT INTO `tags` VALUES (30, 'aaa');
